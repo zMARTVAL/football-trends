@@ -1,0 +1,58 @@
+
+body {
+  background-color: #121212;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Stop side movement */
+  width: 100%;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+
+.content-container {
+  display: flex;
+  width: 100%;
+}
+
+.main-content {
+  margin-top: 70px;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+:root {
+  --bg-color: #121212;
+  --text-color: white;
+  --navbar-bg: #111122;
+  --sidebar-bg: #111122;
+  --link-color: white;
+  --link-hover-bg: rgba(255, 165, 0, 0.2);
+  --menu-btn-bg: #ffad00;
+  --menu-btn-hover: #555;
+  --input-bg: #222;
+  --input-border: orange;
+}
+
+body.light-mode {
+  --bg-color: #f4f4f4;
+  --text-color: #222;
+  --navbar-bg: #ffffff;
+  --sidebar-bg: #eaeaea;
+  --link-color: #111;
+  --link-hover-bg: rgba(255, 165, 0, 0.15);
+  --menu-btn-bg: #ffa500;
+  --menu-btn-hover: #ddd;
+  --input-bg: #fff;
+  --input-border: #ffa500;
+}
