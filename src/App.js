@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import Main from "./pages/Main.jsx";
 import Explorer from "./pages/Explorer.jsx";
+import Homepage from "./pages/Homepage.jsx";
+import Main from "./pages/Main.jsx";
 import Trends from "./pages/Trends.jsx";
 import "./Styles/global.css";
 
@@ -15,12 +15,14 @@ function App() {
       <div className="app-container">
         <Navbar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <div className="content-container">
-          <Sidebar isOpen={sidebarOpen} />
+         
           <div className="main-content">
             <Routes>
-              <Route path="/" exact Component={Main}/>
+              <Route path="/" exact Component={Homepage}/>
+              <Route path="/main" exact Component={Main}/>
               <Route path="/explorer" element={<Explorer />} />
               <Route path="/trends" element={<Trends />} />
+              <Route path="/homepage" element={<Homepage />} />
             </Routes>
           </div>
         </div>
