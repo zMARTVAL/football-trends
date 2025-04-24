@@ -5,6 +5,7 @@ import FirstChart from '../components/FirstChart'
 import DashHead from '../components/DashHead'
 import Footer from '../components/Footer'
 import Hero from '../components/Hero'
+import TrendDashboard from '../components/TrendDashboard'
 const Homepage = () => {
   return (
     <div>
@@ -12,7 +13,6 @@ const Homepage = () => {
       <About />
       <DashHead />
       <Head />
-      
       <FirstChart />
       <Footer />
 
