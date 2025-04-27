@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Line, Bar, Pie } from 'react-chartjs-2';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
   ArcElement,
-  TimeScale
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  TimeScale,
+  Title,
+  Tooltip
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
+import React, { useEffect, useState } from 'react';
+import { Bar, Line, Pie } from 'react-chartjs-2';
 import './TrendDashboard.css';
 import axios from 'axios';
 
@@ -552,14 +552,14 @@ const TrendDashboard = () => {
             datasets: [{
               data: Object.values(data.analysis.sentiment),
               backgroundColor: [
-                'rgba(75, 192, 192, 0.6)',
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(255, 206, 86, 0.6)'
+                'rgba(0, 71, 255, 0.7)',
+                'rgba(0, 178, 255, 0.7)',
+                'rgba(76, 175, 80, 0.7)'
               ],
               borderColor: [
-                'rgba(75, 192, 192, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 206, 86, 1)'
+                'rgba(0, 71, 255, 1)',
+                'rgba(0, 178, 255, 1)',
+                'rgba(76, 175, 80, 1)'
               ],
               borderWidth: 1
             }]
@@ -725,7 +725,6 @@ const TrendDashboard = () => {
                 <div key={index} className="trend-item">
                   <span className="term">{trend.term}</span>
                   <span className="score">{trend.score.toFixed(2)}</span>
-                  
                   <span className="engagement">{trend.engagement_score.toFixed(2)}</span>
                 </div>
               ))}
@@ -739,7 +738,13 @@ const TrendDashboard = () => {
   return (
     <div className="app">
       <header>
-        <h1>تحليل الترندات الرياضية بالعربية</h1>
+        <h1>
+          <span className="highlight-container">
+            <span className="highlight-bg"></span>
+            <span className="highlight-text">الرياضية</span>
+          </span>
+          تحليل الترندات 
+        </h1>
         <p>اختر موضوعك وابدأ التحليل المتقدم للترندات في الأخبار والمحتوى الرياضي العربي</p>
       </header>
 
@@ -774,6 +779,7 @@ const TrendDashboard = () => {
               onChange={handleTopicChange}
               placeholder="الدوري الإنجليزي، كرة السلة"
               list="topic-suggestions"
+              className="modern-input"
             />
             <datalist id="topic-suggestions">
               {categories.map(cat => (
@@ -797,6 +803,7 @@ const TrendDashboard = () => {
                 onChange={handleTopic2Change}
                 placeholder="Enter second topic in Arabic"
                 list="topic-suggestions"
+                className="modern-input"
               />
             </div>
           </div>
@@ -807,6 +814,7 @@ const TrendDashboard = () => {
           <select 
             value={days} 
             onChange={(e) => setDays(parseInt(e.target.value))}
+            className="modern-select"
           >
             <option value="7">آخر 7 أيام </option>
             <option value="30">آخر 30 يوم</option>
@@ -819,7 +827,12 @@ const TrendDashboard = () => {
           className="analyze-btn"
           disabled={(!isValidTopic && !compareMode) || loading}
         >
-          {loading ? 'Analyzing...' : 'Analyze'}
+          {loading ? (
+            <>
+              <span className="spinner"></span>
+              Analyzing...
+            </>
+          ) : 'Analyze'}
         </button>
       </form>
 
@@ -854,14 +867,13 @@ const TrendDashboard = () => {
 )}
 
       {error && !loading && (
-        <div className="error">
+        <div className="error-message">
           <p>{error}</p>
         </div>
       )}
 
       {!compareMode && data && !loading && !error && (
         <div className="dashboard">
-          {/* Single topic view - keep all your existing render calls */}
           {renderTimeSeriesChart()}
           <div className="charts-row">
             {renderTopTermsChart()}
