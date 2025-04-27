@@ -1,56 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import '../Styles/navbar.css'
+import '../Styles/navbar.css';
 import search from '../assets/images/search.png';
 
 function Navbar() {
-
   const location = useLocation();
-
-
 
   return (
     <nav className="navbar">
-      <div className="left-nav">
-
-
-      <ul className="nav-links">
-        <li>
-          <Link to="/" className={location.pathname === "/" ? "active" : ""}>
-            الرئيسية
-          </Link>
-        </li>
-        <li>
-          <Link to="/trends" className={location.pathname === "/trends" ? "active" : ""}>
-            آخر الأخبار
-          </Link>
-        </li>
-        <li>
-          <Link to="/analyses" className={location.pathname === "/analyses" ? "active" : ""}>
-            التحليلات
-          </Link>
-        </li>
-        </ul>
+      <div className="nav-container">
+        <Link to="/" className="brand">
+          <span className="brand-name">TrendSport</span>
+          {location.pathname === "/" && <span className="brand-underline"></span>}
+        </Link>
+        
+        <div className="search-container">
+          <button className="search-button">
+          <Link to="/TrendDashboard" >
+            <img src={search} alt="Search" className="search-icon" />
+            </Link>
+          </button>
         </div>
-
-        <div className="right-nav">
-        <ul className="nav-links">
-        <li>
-          <Link to="/clubs" className={location.pathname === "/clubs" ? "active" : ""}>
-            الفرق و اللاعبون
-          </Link>
-        </li>
-        <li>
-          <Link to="/analyses" className={location.pathname === "/analyses" ? "active" : ""}>
-            التحليلات
-          </Link>
-        </li>
-        <li>
-          <Link to="#" className="search-icon">
-            <img src={search} alt="Search" className="photo-nav" />
-          </Link>
-        </li>
-      </ul>
       </div>
     </nav>
   );

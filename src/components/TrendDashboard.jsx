@@ -14,7 +14,7 @@ import {
   TimeScale
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import './TrendDashboard.css';
+import '../Styles/TrendDashboard.css';
 
 ChartJS.register(
   CategoryScale,
@@ -602,8 +602,8 @@ const TrendDashboard = () => {
   return (
     <div className="app">
       <header>
-        <h1>Arabic Trends Analyzer</h1>
-        <p>Advanced analysis of trends in Arabic news and YouTube content</p>
+        <h1>تحليل الترندات الرياضية بالعربية</h1>
+        <p>اختر موضوعك وابدأ التحليل المتقدم للترندات في الأخبار والمحتوى الرياضي العربي</p>
       </header>
 
       <form className="controls" onSubmit={handleSubmit}>
@@ -615,14 +615,14 @@ const TrendDashboard = () => {
               className={!compareMode ? 'active' : ''}
               onClick={() => setCompareMode(false)}
             >
-              Single Topic
+              موضوع واحد
             </button>
             <button
               type="button"
               className={compareMode ? 'active' : ''}
               onClick={() => setCompareMode(true)}
             >
-              Compare Topics
+              مقارنة المواضيع
             </button>
           </div>
         </div>
@@ -635,7 +635,7 @@ const TrendDashboard = () => {
               type="text"
               value={topic}
               onChange={handleTopicChange}
-              placeholder="Enter a topic in Arabic"
+              placeholder="الدوري الإنجليزي، كرة السلة"
               list="topic-suggestions"
             />
             <datalist id="topic-suggestions">
@@ -671,9 +671,9 @@ const TrendDashboard = () => {
             value={days} 
             onChange={(e) => setDays(parseInt(e.target.value))}
           >
-            <option value="7">Last 7 Days</option>
-            <option value="30">Last 30 Days</option>
-            <option value="90">Last 3 Months</option>
+            <option value="7">آخر 7 أيام </option>
+            <option value="30">آخر 30 يوم</option>
+            <option value="90">آخر 3 أشهر</option>
           </select>
         </div>
 

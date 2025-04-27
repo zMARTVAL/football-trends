@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Explorer from "./pages/Explorer.jsx";
+
 import Homepage from "./pages/Homepage.jsx";
-import Main from "./pages/Main.jsx";
-import Trends from "./pages/Trends.jsx";
+import TrendDashboard from "./components/TrendDashboard"
 import "./Styles/global.css";
 
 function App() {
@@ -19,9 +18,8 @@ function App() {
           <div className="main-content">
             <Routes>
               <Route path="/" exact Component={Homepage}/>
-              <Route path="/main" exact Component={Main}/>
-              <Route path="/explorer" element={<Explorer />} />
-              <Route path="/trends" element={<Trends />} />
+              
+              <Route path="/TrendDashboard" exact Component={TrendDashboard}/>
               <Route path="/homepage" element={<Homepage />} />
             </Routes>
           </div>

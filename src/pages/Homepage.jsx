@@ -1,19 +1,19 @@
 import React from 'react'
 import About from '../components/About'
-import Head from '../components/Head'
-import FirstChart from '../components/FirstChart'
 import DashHead from '../components/DashHead'
 import Footer from '../components/Footer'
+import Head from '../components/Head'
 import Hero from '../components/Hero'
 import TrendDashboard from '../components/TrendDashboard'
+
 const Homepage = () => {
   return (
     <div>
       <Hero />
       <About />
       <DashHead />
-      <Head />
-      <FirstChart />
+    
+      <TrendDashboard />
       <Footer />
 
       </div>

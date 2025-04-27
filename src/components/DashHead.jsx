@@ -3,9 +3,11 @@ import '../Styles/dashHead.css';
 
 const DashHead = () => {
   return (
-    <section className="hero">
-      <h1 className="hero-text">Dashboard<span className="yellow">.</span></h1>
-      <div className="yellow-square"></div>
+    <section className="dash-head">
+      <h1 className="dash-title">
+        <span className="arabic-text">اكتشف آخر</span>
+        <span className="highlight">Trends</span>
+      </h1>
     </section>
   );
 };
