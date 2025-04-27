@@ -14,7 +14,8 @@ import {
   TimeScale
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import '../Styles/TrendDashboard.css';
+import './TrendDashboard.css';
+import axios from 'axios';
 
 ChartJS.register(
   CategoryScale,
@@ -54,12 +55,11 @@ const TrendDashboard = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/top_categories');
-      const result = await response.json();
-      setCategories(result.categories);
-      if (result.categories.length > 0) {
-        setTopic(result.categories[0]);
-        setTopic2(result.categories[1] || result.categories[0]);
+      const response = await axios.get('http://localhost:8000/api/top_categories');
+      setCategories(response.data.categories);
+      if (response.data.categories.length > 0) {
+        setTopic(response.data.categories[0]);
+        setTopic2(response.data.categories[1] || response.data.categories[0]);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -69,10 +69,9 @@ const TrendDashboard = () => {
 
   const checkTopicValidity = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/check_topic/${encodeURIComponent(topic)}`);
-      const result = await response.json();
-      setIsValidTopic(result.exists);
-      if (!result.exists) {
+      const response = await axios.get(`http://localhost:8000/api/check_topic/${encodeURIComponent(topic)}`);
+      setIsValidTopic(response.data.exists);
+      if (!response.data.exists) {
         setError('This topic is not in our database. Please try another term.');
       } else {
         setError('');
@@ -98,28 +97,16 @@ const TrendDashboard = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://localhost:8000/api/advanced_analysis', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          target_class: topic,
-          days: days
-        })
+      const response = await axios.post('http://localhost:8000/api/advanced_analysis', {
+        target_class: topic,
+        days: days
       });
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to fetch data');
-      }
-      
-      const result = await response.json();
-      setData(result);
-      setComparisonData(null); // Clear comparison data when in single mode
+      setData(response.data);
+      setComparisonData(null);
     } catch (error) {
       console.error('Error fetching data:', error);
-      setError(error.message);
+      setError(error.response?.data?.detail || error.message);
     } finally {
       setLoading(false);
     }
@@ -129,28 +116,16 @@ const TrendDashboard = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://localhost:8000/api/compare', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          topics: [topic, topic2],
-          days: days
-        })
+      const response = await axios.post('http://localhost:8000/api/compare', {
+        topics: [topic, topic2],
+        days: days
       });
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to fetch comparison data');
-      }
-      
-      const result = await response.json();
-      setComparisonData(result);
-      setData(null); // Clear single topic data when in compare mode
+      setComparisonData(response.data);
+      setData(null);
     } catch (error) {
       console.error('Error fetching comparison data:', error);
-      setError(error.message);
+      setError(error.response?.data?.detail || error.message);
     } finally {
       setLoading(false);
     }
@@ -405,52 +380,114 @@ const TrendDashboard = () => {
   
     const topTerms = trends.slice(0, 10);
     return (
-      <div className="bar-chart-container">
-        <Bar
-          data={{
-            labels: topTerms.map(t => t.term),
-            datasets: [{
-              label: 'Relevance Score',
-              data: topTerms.map(t => t.combined_score),
-              backgroundColor: 'rgba(54, 162, 235, 0.6)',
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1
-            }]
-          }}
-          options={{
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              title: {
-                display: true,
-                text: 'Top Related Terms',
-                font: { size: 16 }
-              },
-              legend: {
-                display: false
-              }
-            },
-            scales: {
-              x: {
-                beginAtZero: true,
-                title: { 
-                  display: true, 
-                  text: 'Score',
-                  font: {
-                    weight: 'bold'
-                  }
-                }
-              },
-              y: {
-                ticks: {
-                  autoSkip: false
-                }
-              }
+      <div className="modern-bar-chart-container">
+  <Bar
+    data={{
+      labels: topTerms.map(t => t.term),
+      datasets: [{
+        label: 'Relevance Score',
+        data: topTerms.map(t => t.combined_score),
+        backgroundColor: 'rgba(99, 102, 241, 0.8)',
+        borderColor: 'rgba(79, 70, 229, 1)',
+        borderWidth: 0,
+        borderRadius: 4,
+        borderSkipped: false,
+        barThickness: 28,
+        hoverBackgroundColor: 'rgba(99, 102, 241, 1)'
+      }]
+    }}
+    options={{
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Top Related Terms',
+          color: '#1e293b',
+          font: {
+            size: 18,
+            weight: '600',
+            family: "'Inter', sans-serif"
+          },
+          padding: {
+            top: 10,
+            bottom: 20
+          }
+        },
+        legend: {
+          display: false
+        },
+        tooltip: {
+          backgroundColor: '#1e293b',
+          titleColor: '#f8fafc',
+          bodyColor: '#e2e8f0',
+          titleFont: {
+            size: 14,
+            weight: '500'
+          },
+          bodyFont: {
+            size: 13
+          },
+          padding: 12,
+          cornerRadius: 8,
+          displayColors: false,
+          callbacks: {
+            label: function(context) {
+              return `Score: ${context.raw.toFixed(2)}`;
             }
-          }}
-        />
-      </div>
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          grid: {
+            drawBorder: false,
+            color: '#e2e8f0'
+          },
+          ticks: {
+            color: '#64748b',
+            font: {
+              family: "'Inter', sans-serif"
+            }
+          },
+          title: { 
+            display: true, 
+            text: 'Relevance Score',
+            color: '#475569',
+            font: {
+              size: 14,
+              weight: '500',
+              family: "'Inter', sans-serif"
+            },
+            padding: { top: 10 }
+          }
+        },
+        y: {
+          grid: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            color: '#1e293b',
+            font: {
+              family: "'Inter', sans-serif",
+              size: 13
+            },
+            mirror: true,
+            padding: -20,
+            z: 1
+          }
+        }
+      },
+      animation: {
+        duration: 1000,
+        easing: 'easeOutQuart'
+      }
+    }}
+  />
+</div>
     );
   };
 
@@ -466,16 +503,18 @@ const TrendDashboard = () => {
               {
                 label: 'News Mentions',
                 data: data.analysis.time_series.news.counts,
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                tension: 0.1
+                borderColor: '#1e88e5',
+        backgroundColor: 'rgba(30, 136, 229, 0.1)',
+        tension: 0.3,
+        fill: true
               },
               {
                 label: 'YouTube Mentions',
                 data: data.analysis.time_series.youtube.counts,
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                tension: 0.1
+                tension: 0.3,
+        fill: true
               }
             ]
           }}
@@ -606,7 +645,7 @@ const TrendDashboard = () => {
             <span className="stat-label">Total Terms</span>
           </div>
           <div className="stat-item">
-            <span className="stat-value">{data.stats.trend_stats.combined.avg_score.toFixed(2)}</span>
+            <span className="stat-value">{data.stats.trend_stats.combined.avg_score}</span>
             <span className="stat-label">Avg Score</span>
           </div>
         </div>
@@ -655,7 +694,7 @@ const TrendDashboard = () => {
                 <span className="stat-label">Total Terms</span>
               </div>
               <div className="stat-item">
-                <span className="stat-value">{data.stats.trend_stats.news_only.avg_score.toFixed(2)}</span>
+                <span className="stat-value">{data.stats.trend_stats.news_only.avg_score}</span>
                 <span className="stat-label">Avg Score</span>
               </div>
             </div>
@@ -677,7 +716,7 @@ const TrendDashboard = () => {
                 <span className="stat-label">Total Terms</span>
               </div>
               <div className="stat-item">
-                <span className="stat-value">{data.stats.trend_stats.youtube_only.avg_score.toFixed(2)}</span>
+                <span className="stat-value">{data.stats.trend_stats.youtube_only.avg_score}</span>
                 <span className="stat-label">Avg Score</span>
               </div>
             </div>
@@ -785,11 +824,34 @@ const TrendDashboard = () => {
       </form>
 
       {loading && (
-        <div className="loading">
-          <div className="spinner"></div>
-          <p>Loading data...</p>
-        </div>
-      )}
+  <div className="loading-container">
+    <h3 className="loading-header">جاري تحليل البيانات</h3>
+    <div className="loading-bar">
+      <div className="loading-progress"></div>
+    </div>
+    
+    <div className="loading-steps">
+      <div className="loading-step ">
+        <div className="loading-step-icon">1</div>
+        <div className="loading-step-text">تحليل الكلمة</div>
+      </div>
+      <div className="loading-step">
+        <div className="loading-step-icon">2</div>
+        <div className="loading-step-text">جاري عملية البحث</div>
+      </div>
+      <div className="loading-step">
+        <div className="loading-step-icon">3</div>
+        <div className="loading-step-text">استخراج الترند</div>
+      </div>
+      <div className="loading-step">
+        <div className="loading-step-icon">4</div>
+        <div className="loading-step-text">تحليل المشاعر</div>
+      </div>
+    </div>
+    
+    <p className="loading-note">انتظر قليلاً، قد تأخذ العملية بضع دقائق...</p>
+  </div>
+)}
 
       {error && !loading && (
         <div className="error">

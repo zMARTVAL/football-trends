@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 
 import Homepage from "./pages/Homepage.jsx";
 import TrendDashboard from "./components/TrendDashboard"
+import PredictionPage from "./components/PredictionPage.jsx";
 import "./Styles/global.css";
 
 function App() {
@@ -20,7 +21,9 @@ function App() {
               <Route path="/" exact Component={Homepage}/>
               
               <Route path="/TrendDashboard" exact Component={TrendDashboard}/>
+              <Route path="/TrendPredictor" exact Component={PredictionPage}/>
               <Route path="/homepage" element={<Homepage />} />
+
             </Routes>
           </div>
         </div>
