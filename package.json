@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "chart.js": "^4.4.9",
     "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^4.1.0",
     "football-trends": "file:",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",

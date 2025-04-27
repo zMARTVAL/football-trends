@@ -1,26 +1,66 @@
-.hero {
-  height: 50vh;
+
+.dash-head {
+  height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: white;
-  gap: 30px;
 }
 
-.hero-text {
-  font-size: 6rem;
+.dash-title {
+  font-size: 2.5rem;
   font-weight: bold;
-  color: #0047FF;
-  margin: 0;
-}
-
-.hero-text .yellow {
   color: black;
+  margin: 0;
+  direction: rtl;
 }
 
-.yellow-square {
-  width: 200px;
-  height: 300px;
-  background-color: rgba(0, 71, 255, 0.8);
+.highlight {
+  position: relative;
+  display: inline-block;
+  color: #1a1a1a;
+  z-index: 1;
+  unicode-bidi: plaintext; /* Garde l'affichage LTR pour le texte anglais */
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 45%;
+  background-color: #0047FF;
+  opacity: 0.7;
+  transform: rotate(-1.9deg);
+  z-index: -1;
+  animation: highlightExpand 0.8s ease-out 0.5s forwards;
+  transform-origin: left;
+}
+
+.arabic-text {
+  margin-left: 15px;
+}
+
+/* Animation identique à about.css */
+@keyframes highlightExpand {
+  from {
+    transform: rotate(-1.9deg) scaleX(0);
+  }
+  to {
+    transform: rotate(-1.9deg) scaleX(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dash-head {
+    height: 30vh;
+    gap: 20px;
+  }
+  
+  .dash-title {
+    font-size: 2.5rem;
+  }
 }

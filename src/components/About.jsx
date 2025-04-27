@@ -6,8 +6,8 @@ const About = () => {
   
     <section className="features-wrapper">
     <div className="features-title">
-      <h2>؟ <span className='blue-text'>TrendSPORT</span> شنو يخدم</h2>
-    </div>
+    <h2><span className='blue-text'>؟TrendSPORT</span>واش يخدم</h2>
+        </div>
   
     <div className="about-features">
       <div className="feature-box">
