@@ -1,0 +1,253 @@
+.prediction-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+  
+  .prediction-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    color: #1a1a1a;
+    line-height: 1.4;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  .prediction-title span.highlight-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .prediction-title span.highlight-bg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 45%;
+    background-color: #0047FF;
+    opacity: 0.7;
+    transform: rotate(-1.9deg);
+    z-index: 0;
+    animation: highlightExpand 0.8s ease-out 0.3s forwards;
+    transform-origin: left;
+  }
+  
+  .prediction-title span.highlight-text {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .prediction-card {
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 71, 255, 0.08);
+    border: 1px solid rgba(0, 71, 255, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background: white;
+    margin-bottom: 1.5rem;
+  }
+  
+  .prediction-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 71, 255, 0.12);
+  }
+  
+  .prediction-form .MuiFormControl-root {
+    margin-bottom: 1rem;
+  }
+  
+  .prediction-form .MuiInputBase-root {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  .prediction-form .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 71, 255, 0.15);
+  }
+  
+  .prediction-form .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #0047FF;
+  }
+  
+  .prediction-button {
+    background: linear-gradient(135deg, #0047FF 0%, #0066FF 100%);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+    text-transform: none;
+    box-shadow: 0 3px 10px rgba(0, 71, 255, 0.15);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .prediction-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 71, 255, 0.25);
+  }
+  
+  .prediction-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 60%
+    );
+    transform: rotate(30deg);
+    transition: all 0.3s ease;
+  }
+  
+  .prediction-button:hover::after {
+    animation: shine 1.5s ease infinite;
+  }
+  
+  .results-card {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  .confidence-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+  }
+  
+  .confidence-metrics {
+    background: rgba(0, 71, 255, 0.03);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(0, 71, 255, 0.08);
+  }
+  
+  .prediction-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+  
+  .prediction-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .decor-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(50px);
+    opacity: 0.08;
+    z-index: -1;
+  }
+  
+  .decor-circle.blue-1 {
+    width: 200px;
+    height: 200px;
+    background: #0047FF;
+    top: -50px;
+    right: -50px;
+  }
+  
+  .decor-circle.blue-2 {
+    width: 150px;
+    height: 150px;
+    background: #0066FF;
+    bottom: -30px;
+    left: -30px;
+  }
+  
+  .prediction-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  .prediction-particle {
+    position: absolute;
+    background: #0047FF;
+    border-radius: 50%;
+    opacity: 0.08;
+    animation: float-particle 15s infinite linear;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes highlightExpand {
+    from {
+      transform: rotate(-1.5deg) scaleX(0);
+    }
+    to {
+      transform: rotate(-1.5deg) scaleX(1);
+    }
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: rotate(30deg) translate(-30%, -30%);
+    }
+    100% {
+      transform: rotate(30deg) translate(30%, 30%);
+    }
+  }
+  
+  @keyframes float-particle {
+    0% {
+      transform: translateY(0) translateX(0);
+      opacity: 0.08;
+    }
+    50% {
+      opacity: 0.12;
+    }
+    100% {
+      transform: translateY(-80px) translateX(40px);
+      opacity: 0;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .prediction-container {
+      padding: 1.5rem;
+      margin: 1rem;
+    }
+    
+    .prediction-title {
+      font-size: 1.5rem;
+    }
+    
+    .confidence-metrics {
+      padding: 0.8rem;
+    }
+    
+    .prediction-text {
+      padding: 0.8rem;
+      font-size: 0.9rem;
+    }
+  }

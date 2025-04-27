@@ -84,3 +84,50 @@
     height: 20px;
   }
 }
+/* Ajoutez ces nouvelles règles à votre fichier CSS existant */
+
+.nav-items {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Espacement entre les éléments */
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 5px 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+  color: #0047FF; /* Même bleu que votre accent */
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #0047FF;
+  transition: width 0.3s ease;
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}
+
+/* Version mobile */
+@media (max-width: 768px) {
+  .nav-items {
+    gap: 15px;
+  }
+  
+  .nav-item {
+    font-size: 0.85rem;
+  }
+}

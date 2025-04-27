@@ -1,0 +1,77 @@
+.confidence-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 71, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.confidence-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 71, 255, 0.15);
+}
+
+.confidence-text {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.confidence-progress {
+    border-radius: 8px;
+    height: 8px !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Colors */
+.confidence-high {
+    color: #4CAF50;
+}
+
+.confidence-good {
+    color: #81C784;
+}
+
+.confidence-medium {
+    color: #FFB74D;
+}
+
+.confidence-low {
+    color: #E57373;
+}
+
+/* Sizes */
+.confidence-small {
+    padding: 4px 8px;
+}
+
+.confidence-small .confidence-text {
+    font-size: 0.75rem;
+}
+
+.confidence-small .confidence-progress {
+    height: 4px !important;
+}
+
+.confidence-medium {
+    padding: 8px 12px;
+}
+
+.confidence-medium .confidence-text {
+    font-size: 0.9rem;
+}
+
+.confidence-large {
+    padding: 12px 16px;
+}
+
+.confidence-large .confidence-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.confidence-large .confidence-progress {
+    height: 10px !important;
+}

@@ -1,20 +1,13 @@
 import React from 'react'
-import About from '../components/About'
-import DashHead from '../components/DashHead'
-import Footer from '../components/Footer'
-import Head from '../components/Head'
-import Hero from '../components/Hero'
-import TrendDashboard from '../components/TrendDashboard'
 
+import Hero from '../components/Hero'
+import SearchResults from '../components/SearchResults'
 const Homepage = () => {
   return (
     <div>
       <Hero />
-      <About />
-      <DashHead />
-    
-      <TrendDashboard />
-      <Footer />
+      {/*hedi ay hta trechercher 3la kl word bh tkhrjllk section te3ha*/}
+      <SearchResults />
 
       </div>
   )
