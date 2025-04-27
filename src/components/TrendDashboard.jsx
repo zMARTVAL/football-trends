@@ -169,100 +169,198 @@ const TrendDashboard = () => {
     fetchData();
   };
 
-  const renderComparisonSummary = () => {
-    if (!comparisonData) return null;
-
+  const ComparisonTimeSeries = ({ data, topics }) => {
+    if (!data || !topics) return null;
+  
+    const datasets = topics.map((topic, idx) => ({
+      label: topic,
+      data: data.comparison[topic].time_series.news.counts,
+      borderColor: `hsl(${idx * 120}, 70%, 50%)`,
+      backgroundColor: `hsla(${idx * 120}, 70%, 50%, 0.2)`,
+      tension: 0.1
+    }));
+  
     return (
-      <div className="comparison-section">
-        <h2>Comparison Results</h2>
-        
-        <div className="comparison-cards">
-          {Object.entries(comparisonData).map(([topic, topicData]) => (
-            <div key={topic} className="comparison-card">
-              <h3>{topic}</h3>
-              <div className="comparison-stats">
-                <div className="stat">
-                  <div className="stat-value">{topicData.total_mentions}</div>
-                  <div className="stat-label">Total Mentions</div>
-                </div>
-                <div className="stat">
-                  <div className="stat-value">{topicData.news_mentions}</div>
-                  <div className="stat-label">News Articles</div>
-                </div>
-                <div className="stat">
-                  <div className="stat-value">{topicData.youtube_mentions}</div>
-                  <div className="stat-label">YouTube Videos</div>
-                </div>
-                <div className="stat">
-                  <div className="stat-value">{topicData.average_engagement?.toFixed(2) || 'N/A'}</div>
-                  <div className="stat-label">Avg Engagement</div>
-                </div>
+      <div className="chart-container">
+        <Line
+          data={{
+            labels: data.comparison[topics[0]].time_series.news.dates,
+            datasets: datasets
+          }}
+          options={{
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'News Mentions Comparison',
+                font: { size: 16 }
+              },
+            },
+            scales: {
+              x: {
+                title: { display: true, text: 'Date' }
+              },
+              y: {
+                title: { display: true, text: 'Mentions' }
+              }
+            }
+          }}
+        />
+      </div>
+    );
+  };
+  
+  const YouTubeComparisonChart = ({ data, topics }) => {
+    if (!data || !topics) return null;
+  
+    const datasets = topics.map((topic, idx) => ({
+      label: topic,
+      data: data.comparison[topic].time_series.youtube.counts,
+      borderColor: `hsl(${idx * 120}, 70%, 50%)`,
+      backgroundColor: `hsla(${idx * 120}, 70%, 50%, 0.2)`,
+      tension: 0.1
+    }));
+  
+    return (
+      <div className="chart-container">
+        <Line
+          data={{
+            labels: data.comparison[topics[0]].time_series.youtube.dates,
+            datasets: datasets
+          }}
+          options={{
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'YouTube Mentions Comparison',
+                font: { size: 16 }
+              },
+            },
+            scales: {
+              x: {
+                title: { display: true, text: 'Date' }
+              },
+              y: {
+                title: { display: true, text: 'Mentions' }
+              }
+            }
+          }}
+        />
+      </div>
+    );
+  };
+  
+  const ComparisonSummaryCards = ({ data, topics }) => {
+    if (!data || !topics) return null;
+  
+    return (
+      <div className="comparison-cards">
+        {topics.map((topic, idx) => (
+          <div key={idx} className="comparison-card">
+            <h3>{topic}</h3>
+            <div className="comparison-stats">
+              <div className="stat">
+                <div className="stat-value">{data.comparison[topic].stats.total_mentions}</div>
+                <div className="stat-label">Total Mentions</div>
               </div>
-              
-              <div className="comparison-terms">
-                <h4>Top Terms:</h4>
-                <ul>
-                  {topicData.top_terms.map((term, idx) => (
-                    <li key={idx}>{term}</li>
-                  ))}
-                </ul>
-                
-                <h4>Top YouTube Terms:</h4>
-                <ul>
-                  {topicData.top_youtube_terms.map((term, idx) => (
-                    <li key={idx}>{term}</li>
-                  ))}
-                </ul>
+              <div className="stat">
+                <div className="stat-value">{data.comparison[topic].stats.news_mentions}</div>
+                <div className="stat-label">News Articles</div>
+              </div>
+              <div className="stat">
+                <div className="stat-value">{data.comparison[topic].stats.youtube_mentions}</div>
+                <div className="stat-label">YouTube Videos</div>
+              </div>
+              <div className="stat">
+                <div className="stat-value">{data.comparison[topic].stats.avg_engagement.toFixed(2)}</div>
+                <div className="stat-label">Avg Engagement</div>
               </div>
             </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+  
+  const ComparisonTrendsTable = ({ data, topics }) => {
+    if (!data || !topics) return null;
+  
+    return (
+      <div className="comparison-trends">
+        <h3>Top Trends Comparison</h3>
+        <div className="trends-grid">
+          {topics.map(topic => (
+            <div key={topic} className="trend-column">
+              <h4>{topic}</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Term</th>
+                    <th>Score</th>
+                    <th>Freq</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.comparison[topic].trends.combined.map((trend, idx) => (
+                    <tr key={idx}>
+                      <td>{trend.term}</td>
+                      <td>{trend.combined_score?.toFixed(2) || trend.score?.toFixed(2)}</td>
+                      <td>{trend.frequency || trend.news_data?.frequency}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ))}
-        </div>
-
-        <div className="comparison-chart">
-          {renderComparisonChart()}
         </div>
       </div>
     );
   };
-
-  const renderComparisonChart = () => {
-    if (!comparisonData) return null;
-
-    const topics = Object.keys(comparisonData);
-    
+  
+  const SentimentComparison = ({ data, topics }) => {
+    if (!data || !topics) return null;
+  
+    const sentimentData = {
+      labels: ['Positive', 'Negative', 'Neutral'],
+      datasets: topics.map((topic, idx) => ({
+        label: topic,
+        data: [
+          data.comparison[topic].sentiment.positive || 0,
+          data.comparison[topic].sentiment.negative || 0,
+          data.comparison[topic].sentiment.neutral || 0
+        ],
+        backgroundColor: `hsla(${idx * 120}, 70%, 50%, 0.4)`,
+        borderColor: `hsl(${idx * 120}, 70%, 50%)`,
+        borderWidth: 1
+      }))
+    };
+  
     return (
-      <Bar
-        data={{
-          labels: ['Total Mentions', 'News Mentions', 'YouTube Mentions', 'Avg Engagement'],
-          datasets: topics.map((topic, idx) => ({
-            label: topic,
-            data: [
-              comparisonData[topic].total_mentions,
-              comparisonData[topic].news_mentions,
-              comparisonData[topic].youtube_mentions,
-              comparisonData[topic].average_engagement || 0
-            ],
-            backgroundColor: `hsl(${idx * 180}, 70%, 50%)`,
-            borderColor: `hsl(${idx * 180}, 70%, 30%)`,
-            borderWidth: 1
-          }))
-        }}
-        options={{
-          responsive: true,
-          plugins: {
-            title: {
-              display: true,
-              text: 'Topic Comparison Overview',
-              font: { size: 16 }
+      <div className="chart-container">
+        <Bar
+          data={sentimentData}
+          options={{
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Sentiment Comparison',
+                font: { size: 16 }
+              },
             },
-          },
-          scales: {
-            y: {
-              beginAtZero: true
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Count'
+                }
+              }
             }
-          }
-        }}
-      />
+          }}
+        />
+      </div>
     );
   };
 
@@ -719,17 +817,29 @@ const TrendDashboard = () => {
         </div>
       )}
 
-      {compareMode && comparisonData && !loading && !error && (
-        <div className="dashboard">
-          {/* Comparison view */}
-          {renderComparisonSummary()}
-          
-          {/* You could add more comparison-specific visualizations here */}
-          <div className="chart-container">
-            {renderComparisonChart()}
-          </div>
-        </div>
-      )}
+{compareMode && comparisonData && !loading && !error && (
+  <div className="dashboard">
+    <h2>Comparing: {comparisonData.topics.join(' vs ')}</h2>
+    <p className="time-period">{comparisonData.time_period}</p>
+    
+    <ComparisonSummaryCards data={comparisonData} topics={comparisonData.topics} />
+    
+    <div className="section">
+      <h3>Activity Over Time</h3>
+      <ComparisonTimeSeries data={comparisonData} topics={comparisonData.topics} />
+      <YouTubeComparisonChart data={comparisonData} topics={comparisonData.topics} />
+    </div>
+    
+    <div className="section">
+      <h3>Sentiment Analysis</h3>
+      <SentimentComparison data={comparisonData} topics={comparisonData.topics} />
+    </div>
+    
+    <div className="section">
+      <ComparisonTrendsTable data={comparisonData} topics={comparisonData.topics} />
+    </div>
+  </div>
+)}
     </div>
   );
 };
