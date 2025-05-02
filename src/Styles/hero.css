@@ -488,3 +488,13 @@
     padding: 5px 12px;
   }
 }
+
+@keyframes highlightExpand {
+  from { transform: rotate(-1.9deg) scaleX(0); }
+  to { transform: rotate(-1.9deg) scaleX(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}

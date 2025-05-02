@@ -842,25 +842,7 @@ const TrendDashboard = () => {
     <div className="loading-bar">
       <div className="loading-progress"></div>
     </div>
-    
-    <div className="loading-steps">
-      <div className="loading-step ">
-        <div className="loading-step-icon">1</div>
-        <div className="loading-step-text">تحليل الكلمة</div>
-      </div>
-      <div className="loading-step">
-        <div className="loading-step-icon">2</div>
-        <div className="loading-step-text">جاري عملية البحث</div>
-      </div>
-      <div className="loading-step">
-        <div className="loading-step-icon">3</div>
-        <div className="loading-step-text">استخراج الترند</div>
-      </div>
-      <div className="loading-step">
-        <div className="loading-step-icon">4</div>
-        <div className="loading-step-text">تحليل المشاعر</div>
-      </div>
-    </div>
+  
     
     <p className="loading-note">انتظر قليلاً، قد تأخذ العملية بضع دقائق...</p>
   </div>

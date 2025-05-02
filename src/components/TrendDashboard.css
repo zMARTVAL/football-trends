@@ -288,12 +288,14 @@ header p {
 }
 
 .loading-bar {
-  height: 8px;
-  background-color: var(--gray-200);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  margin-bottom: 2rem;
-  position: relative;
+  width: 100%; /* ← Critical! Parent needs width */
+    max-width: 300px; /* Optional: Constrain width */
+    height: 8px;
+    background-color: var(--gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin: 20px; /* Added space for visibility */
+    position: relative;
 }
 
 .loading-progress {
