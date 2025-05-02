@@ -31,7 +31,7 @@ const TrendsSection = () => {
   useEffect(() => {
     const fetchTrends = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/hero_trends?days=7&limit=8');
+        const response = await fetch('http://localhost:8000/api/hero_trends?days=30&limit=8');
         const data = await response.json();
         
         if (!response.ok || data.error) {
